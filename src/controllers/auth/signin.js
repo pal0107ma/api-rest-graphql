@@ -74,7 +74,7 @@ const signin = async (req = request, res = response) => {
     // SAVE JWT IN REDIS COLLECTION
     await redis.set(`jwt:${token}`, token, {
       EX: process.env.JWT_REDIS_EXP
-        ? Number(process.env.JWT_REDIS_EX)
+        ? Number(process.env.JWT_REDIS_EXP)
         : 60 * 60 * 24,
       NX: true,
     });
