@@ -1,46 +1,49 @@
 // ENVIROMENT VARIABLES CONFIG
 require("dotenv").config();
 
+// DATABASES CONNECTIONS
+const redis = require("./db/redis.client");
+
+require("./db/mongodb");
+
 // REQUIRE MODULES
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
+
 const cors = require("cors");
 
-// INSTEAD APP
-const app = express();
+const { mountRoutes } = require("./helpers");
 
-// MIDDLEWARES
-app.use(express.json());
+async function main() {
+  // REDIS CONNECTION
+  await redis.connect();
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "*",
-    optionsSuccessStatus: 200,
-    methods: ["GET", "POST", "DELETE", "PATCH", "HEAD"],
-  })
-);
+  console.log("redis client connection success");
 
-// MOUNT ROUTERS
+  // INSTEAD APP
+  const app = express();
 
-const routes = (() => {
-  const routesPath = path.resolve(path.join(__dirname, "./routes"));
+  // MIDDLEWARES
+  app.use(express.json());
 
-  const routes = fs.readdirSync(routesPath);
+  app.use(
+    cors({
+      origin: process.env.FRONTEND_URL || "*",
+      optionsSuccessStatus: 200,
+      methods: ["GET", "POST", "DELETE", "PATCH", "HEAD"],
+    })
+  );
 
-  return routes.map((str) => str.replace(".js", ""));
-})();
+  // MOUNT ROUTERS
 
-routes.forEach((path) => {
-  const router = require(`./routes/${path}`);
+  mountRoutes(app);
 
-  app.use(`/api/${path}`, router);
-});
+  // LISTEN APPLICATION
 
-// LISTEN APPLICATION
+  const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
-});
+main();
