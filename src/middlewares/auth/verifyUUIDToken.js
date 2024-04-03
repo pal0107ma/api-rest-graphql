@@ -1,0 +1,36 @@
+const Joi = require("joi");
+
+const { request, response } = require("express");
+
+const { internalErrorServer } = require("../../helpers");
+const { User } = require("../../models");
+
+const verifyUUIDToken = async (req = request, res = response, next) => {
+  try {
+    const { error, value: token } = Joi.string().validate(
+      req.query.token || ""
+    );
+
+    if (error) return res.status(400).json(error);
+
+    const user = await User.findOne({
+      "tokens.token": token,
+      "tokens.exp": {
+        $gt: new Date().getTime(),
+      },
+    }).select("tokens");
+
+    if (!user) return res.status(404).json({ msg: "token was not found" });
+
+    req.data = {
+      user,
+      token,
+    };
+
+    next();
+  } catch (error) {
+    internalErrorServer(error, res);
+  }
+};
+
+module.exports = verifyUUIDToken;

@@ -21,7 +21,7 @@ const schema = Joi.object({
 });
 
 // HELPERS
-const { internalErrorServer } = require("../../helpers");
+const { internalErrorServer, sendEmail } = require("../../helpers");
 
 const signup = async (req = request, res = response) => {
   try {
@@ -57,7 +57,19 @@ const signup = async (req = request, res = response) => {
 
     // SEND CONFIRMATION EMAIL
 
-    // ***
+    // await sendEmail({
+    //   htmlParams: {
+    //     HREF: `${
+    //       process.env.FRONTEND_URL || "http://localhost:3000/api/auth"
+    //     }/confirm-account?token=${user.tokens[0].token}`,
+    //     TITLE: "Welcome!",
+    //     LINK_TEXT: "Click here!",
+    //     TEXT: `We need you confirm your account let's press "Click here!"`,
+    //   },
+    //   to: email,
+    //   host: req.hostname,
+    //   subject: "Confirm account email",
+    // });
 
     // SEND USER INFO
     res.status(201).json(

@@ -4,6 +4,8 @@ const confirmAccount = require("./confirmAccount");
 const logout = require("./logout");
 const verify = require("./verify");
 const profile = require("./profile");
+const forgotPassword = require("./forgotPassword");
+const confirmForgotPassword = require("./confirmForgotPassword");
 
 module.exports = {
   signup,
@@ -12,4 +14,6 @@ module.exports = {
   verify,
   logout,
   profile,
+  forgotPassword,
+  confirmForgotPassword,
 };

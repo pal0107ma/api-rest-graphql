@@ -67,7 +67,14 @@ const signin = async (req = request, res = response) => {
     user.tokens = user.tokens.filter(({ exp }) => exp > new Date().getTime());
 
     // PUSH TOKEN TO USER TOKENS
-    user.tokens.push({ token, exp: jwt.decode(token).exp * 1000 });
+
+    let { exp, iat } = jwt.decode(token);
+
+    exp *= 1000;
+
+    iat *= 1000;
+
+    user.tokens.push({ token, exp, iat, type: "JWT" });
 
     await user.save();
 

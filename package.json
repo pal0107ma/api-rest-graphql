@@ -1,5 +1,5 @@
 {
-  "name": "squeleton-express",
+  "name": "auth-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,6 +18,7 @@
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.4",
+    "nodemailer": "^6.9.13",
     "redis": "^4.6.13",
     "uuid": "^9.0.1"
   },

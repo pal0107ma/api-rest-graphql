@@ -6,8 +6,11 @@ const {
   verify,
   logout,
   profile,
+  forgotPassword,
+  confirmForgotPassword,
 } = require("../controllers/auth");
-const { verifyJWT } = require("../middlewares/auth");
+
+const { verifyUUIDToken,verifyJWT } = require("../middlewares/auth");
 
 const router = Router();
 
@@ -22,5 +25,13 @@ router.get("/verify", verifyJWT, verify);
 router.get("/profile", verifyJWT, profile);
 
 router.delete("/logout", verifyJWT, logout);
+
+router.post("/forgot-password", forgotPassword);
+
+router.get("/verify-token", verifyUUIDToken, (req, res) =>
+  res.json({ msg: "verify token success" })
+);
+
+router.post("/confirm-forgot-password", verifyUUIDToken, confirmForgotPassword);
 
 module.exports = router;
