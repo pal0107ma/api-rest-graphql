@@ -1,6 +1,6 @@
-const Joi = require("joi");
+import Joi from 'joi';
 const schema = Joi.string().email({
   minDomainSegments: 2,
   tlds: { allow: ["com", "net"] },
 });
-module.exports = schema;
+export default schema;

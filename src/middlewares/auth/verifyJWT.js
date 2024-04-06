@@ -1,14 +1,16 @@
-const redis = require("../../db/redis.client");
-const jwt = require("jsonwebtoken");
+import redis from '../../db/redis.client.js';
+import jwt from 'jsonwebtoken';
 
 // EXPRESS TYPES
-const { response, request } = require("express");
+import { response, request } from 'express';
+
 // MODEL
-const { User } = require("../../models");
+import  User  from '../../models/User.js';
+
 // VALIDATION SCHEMA
 
 // HELPERS
-const { internalErrorServer } = require("../../helpers");
+import  internalErrorServer  from '../../helpers/internalErrorServer.js';
 
 const verifyJWT = async (req = request, res = response, next) => {
   try {
@@ -79,4 +81,4 @@ const verifyJWT = async (req = request, res = response, next) => {
   }
 };
 
-module.exports = verifyJWT;
+export default verifyJWT;

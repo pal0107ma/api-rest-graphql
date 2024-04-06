@@ -1,3 +1,3 @@
-const Joi = require("joi");
+import Joi from 'joi';
 
-module.exports = Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"));
+export default Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"));

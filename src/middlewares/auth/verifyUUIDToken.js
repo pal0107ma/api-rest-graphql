@@ -1,9 +1,7 @@
-const Joi = require("joi");
-
-const { request, response } = require("express");
-
-const { internalErrorServer } = require("../../helpers");
-const { User } = require("../../models");
+import Joi from 'joi';
+import { request, response } from 'express';
+import  internalErrorServer  from '../../helpers/internalErrorServer.js';
+import  User  from '../../models/User.js';
 
 const verifyUUIDToken = async (req = request, res = response, next) => {
   try {
@@ -33,4 +31,4 @@ const verifyUUIDToken = async (req = request, res = response, next) => {
   }
 };
 
-module.exports = verifyUUIDToken;
+export default verifyUUIDToken;

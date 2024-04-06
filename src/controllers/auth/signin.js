@@ -1,14 +1,16 @@
-const bcrypt = require("bcrypt");
-const Joi = require("joi");
-const jwt = require("jsonwebtoken");
+import bcrypt from 'bcrypt';
+import Joi from 'joi';
+import jwt from 'jsonwebtoken';
 
 // REDIS CLIENT
-const redis = require("../../db/redis.client");
+import redis from '../../db/redis.client.js';
 
 // EXPRESS TYPES
-const { response, request } = require("express");
+import { response, request } from 'express';
+
 // MODEL
-const { User } = require("../../models");
+import  User  from '../../models/User.js';
+
 // VALIDATION SCHEMA
 
 const schema = Joi.object({
@@ -20,7 +22,7 @@ const schema = Joi.object({
 });
 
 // HELPERS
-const { internalErrorServer } = require("../../helpers");
+import  internalErrorServer  from '../../helpers/internalErrorServer.js';
 
 const signin = async (req = request, res = response) => {
   try {
@@ -107,4 +109,4 @@ const signin = async (req = request, res = response) => {
   }
 };
 
-module.exports = signin;
+export default signin;

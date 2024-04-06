@@ -1,16 +1,15 @@
-const { Router } = require("express");
-const {
-  signup,
-  signin,
-  confirmAccount,
-  verify,
-  logout,
-  profile,
-  forgotPassword,
-  confirmForgotPassword,
-} = require("../controllers/auth");
+import { Router } from "express";
 
-const { verifyUUIDToken,verifyJWT } = require("../middlewares/auth");
+import signup from "../controllers/auth/signup.js";
+import signin from "../controllers/auth/signin.js";
+import confirmAccount from "../controllers/auth/confirmAccount.js";
+import logout from "../controllers/auth/logout.js";
+import profile from "../controllers/auth/profile.js";
+import forgotPassword from "../controllers/auth/forgotPassword.js";
+import verify from "../controllers/auth/verify.js";
+import confirmForgotPassword from "../controllers/auth/confirmForgotPassword.js";
+import verifyUUIDToken from "../middlewares/auth/verifyUUIDToken.js";
+import verifyJWT from "../middlewares/auth/verifyJWT.js";
 
 const router = Router();
 
@@ -34,4 +33,4 @@ router.get("/verify-token", verifyUUIDToken, (req, res) =>
 
 router.post("/confirm-forgot-password", verifyUUIDToken, confirmForgotPassword);
 
-module.exports = router;
+export default router;

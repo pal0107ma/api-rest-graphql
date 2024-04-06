@@ -1,18 +1,19 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import { join, resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const mountRoutes = (app) => {
-  const routesPath = path.resolve(path.join(__dirname, "../routes"));
+  const routesPath = resolve(join(__dirname, "../routes"));
 
   let routes = fs.readdirSync(routesPath);
 
-  routes = routes.map((str) => str.replace(".js", ""));
-
   routes.forEach((path) => {
-    const router = require(`../routes/${path}`);
-
-    app.use(`/api/${path}`, router);
+    import(`../routes/${path}`).then((module) => {
+      app.use(`/api/${path.replace(".js", "")}`, module.default);
+    });
   });
 };
 
-module.exports = mountRoutes;
+export default mountRoutes;

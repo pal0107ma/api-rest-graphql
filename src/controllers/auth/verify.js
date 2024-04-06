@@ -1,9 +1,10 @@
 // EXPRESS TYPES
-const { response, request } = require("express");
+import { response, request } from 'express';
+
 // VALIDATION SCHEMA
 
 // HELPERS
-const { internalErrorServer } = require("../../helpers");
+import  internalErrorServer  from '../../helpers/internalErrorServer.js';
 
 const verify = async (req = request, res = response) => {
   try {
@@ -15,4 +16,4 @@ const verify = async (req = request, res = response) => {
   }
 };
 
-module.exports = verify;
+export default verify;

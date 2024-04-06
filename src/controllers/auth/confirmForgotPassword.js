@@ -1,8 +1,7 @@
-const { request, response } = require("express");
-const bcrypt = require("bcrypt");
-
-const { internalErrorServer } = require("../../helpers");
-const { passwordSchema } = require("../../schemas");
+import { request, response } from "express";
+import bcrypt from "bcrypt";
+import internalErrorServer from "../../helpers/internalErrorServer.js";
+import passwordSchema from "../../schemas/passwordSchema.js";
 
 const confirmForgotPassword = async (req = request, res = response) => {
   try {
@@ -26,4 +25,4 @@ const confirmForgotPassword = async (req = request, res = response) => {
   }
 };
 
-module.exports = confirmForgotPassword;
+export default confirmForgotPassword;

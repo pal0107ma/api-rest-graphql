@@ -1,8 +1,8 @@
-const { request, response } = require("express");
-const { v4: uuidv4 } = require("uuid");
-const { internalErrorServer, sendEmail } = require("../../helpers");
-const { emailSchema } = require("../../schemas");
-const { User } = require("../../models");
+import { request, response } from "express";
+import { v4 as uuidv4 } from "uuid";
+import internalErrorServer from "../../helpers/internalErrorServer.js";
+import emailSchema from "../../schemas/emailSchema.js";
+import User from "../../models/User.js";
 
 const forgotPassword = async (req = request, res = response) => {
   try {
@@ -43,11 +43,11 @@ const forgotPassword = async (req = request, res = response) => {
     // });
 
     // SEND USER INFO
-    
+
     res.status(201).json({ msg: "we've sent an email" });
   } catch (error) {
     internalErrorServer(error, res);
   }
 };
 
-module.exports = forgotPassword;
+export default forgotPassword;

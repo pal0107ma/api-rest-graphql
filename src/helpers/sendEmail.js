@@ -1,6 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const nodemailer = require("nodemailer");
+import fs from 'fs';
+import path from 'path';
+import nodemailer from 'nodemailer';
 
 const sendEmail = async ({ htmlParams = {}, to = "", subject = "" } = {}) => {
   // DEFINE HTML AND TEXT
@@ -61,4 +61,4 @@ function defineHtmlText(htmlParams) {
   return { html, text };
 }
 
-module.exports = sendEmail;
+export default sendEmail;

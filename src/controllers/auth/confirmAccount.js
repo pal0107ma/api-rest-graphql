@@ -1,11 +1,13 @@
-const Joi = require("joi");
+import Joi from 'joi';
+
 // EXPRESS TYPES
-const { response, request } = require("express");
+import { response, request } from 'express';
+
 // MODEL
-const { User } = require("../../models");
+import  User  from '../../models/User.js';
 
 // HELPERS
-const { internalErrorServer } = require("../../helpers");
+import  internalErrorServer  from '../../helpers/internalErrorServer.js';
 
 const confirmAccount = async (req = request, res = response) => {
   try {
@@ -46,4 +48,4 @@ const confirmAccount = async (req = request, res = response) => {
   }
 };
 
-module.exports = confirmAccount;
+export default confirmAccount;

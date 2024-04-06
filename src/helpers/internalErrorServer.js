@@ -1,4 +1,4 @@
-const { response } = require("express");
+import { response } from 'express';
 
 const internalErrorServer = (error, res = response) => {
   res.status(500).json(error);
@@ -6,4 +6,4 @@ const internalErrorServer = (error, res = response) => {
   console.log(error);
 };
 
-module.exports = internalErrorServer;
+export default internalErrorServer;

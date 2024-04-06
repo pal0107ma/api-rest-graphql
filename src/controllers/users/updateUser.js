@@ -1,6 +1,5 @@
-const { request, response } = require("express");
-
-const { internalErrorServer } = require("../../helpers");
+import { request, response } from 'express';
+import  internalErrorServer  from '../../helpers/internalErrorServer.js';
 
 const updateUser = (req = request, res = response) => {
   try {
@@ -9,4 +8,4 @@ const updateUser = (req = request, res = response) => {
   }
 };
 
-module.exports = updateUser;
+export default updateUser;

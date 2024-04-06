@@ -1,23 +1,26 @@
 // ENVIROMENT VARIABLES CONFIG
-require("dotenv").config();
+// import * as dotenv from "dotenv";
+
+// dotenv.config();
 
 // DATABASES CONNECTIONS
-const redis = require("./db/redis.client");
+import redis from "./db/redis.client.js";
 
-require("./db/mongodb");
+import  "./db/mongodb.js";
 
 // REQUIRE MODULES
-const express = require("express");
+import express from "express";
 
-const cors = require("cors");
-
-const { mountRoutes } = require("./helpers");
+import cors from "cors";
+import mountRoutes  from "./helpers/mountRoutes.js";
 
 async function main() {
   // REDIS CONNECTION
   await redis.connect();
 
   console.log("redis client connection success");
+
+
 
   // INSTEAD APP
   const app = express();

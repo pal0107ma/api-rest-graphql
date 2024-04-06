@@ -1,10 +1,13 @@
-const { v4: uuidv4 } = require("uuid");
-const bcrypt = require("bcrypt");
-const Joi = require("joi");
+import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
+import Joi from 'joi';
+
 // EXPRESS TYPES
-const { response, request } = require("express");
+import { response, request } from 'express';
+
 // MODEL
-const { User } = require("../../models");
+import  User  from '../../models/User.js';
+
 // VALIDATION SCHEMA
 
 const schema = Joi.object({
@@ -21,7 +24,7 @@ const schema = Joi.object({
 });
 
 // HELPERS
-const { internalErrorServer, sendEmail } = require("../../helpers");
+import internalErrorServer from '../../helpers/internalErrorServer.js';
 
 const signup = async (req = request, res = response) => {
   try {
@@ -83,4 +86,4 @@ const signup = async (req = request, res = response) => {
   }
 };
 
-module.exports = signup;
+export default signup;

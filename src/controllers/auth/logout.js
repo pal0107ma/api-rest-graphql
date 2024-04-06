@@ -1,13 +1,15 @@
-const redis = require("../../db/redis.client");
+import redis from '../../db/redis.client.js';
 
 // EXPRESS TYPES
-const { response, request } = require("express");
+import { response, request } from 'express';
+
 // MODEL
-const { User } = require("../../models");
+import  User  from '../../models/User.js';
+
 // VALIDATION SCHEMA
 
 // HELPERS
-const { internalErrorServer } = require("../../helpers");
+import  internalErrorServer  from '../../helpers/internalErrorServer.js';
 
 const logout = async (req = request, res = response) => {
   try {
@@ -39,4 +41,4 @@ const logout = async (req = request, res = response) => {
   }
 };
 
-module.exports = logout;
+export default logout;
