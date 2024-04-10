@@ -32,10 +32,12 @@ async function posts (__, args) {
 
   if (category) $and.push({ category })
 
+  let posts
+
   if (q) {
     const regex = new RegExp(q, 'i')
 
-    const posts = await Post.find({
+    posts = await Post.find({
       $or: [
         { title: regex },
         { description: regex },
@@ -43,19 +45,31 @@ async function posts (__, args) {
       ],
       $and
     })
-      .limit(count)
+      .limit(count + 1)
       .sort({ createdAt: -1 })
-
-    return JSON.parse(JSON.stringify(posts))
   }
 
-  const posts = await Post.find({
-    $and
-  })
-    .limit(count)
-    .sort({ createdAt: -1 })
+  if (!posts) {
+    posts = await Post.find({
+      $and
+    })
+      .limit(count + 1)
+      .sort({ createdAt: -1 })
+  }
 
-  return JSON.parse(JSON.stringify(posts))
+  const data = {
+    cursors: {
+      after: null
+    }
+  }
+
+  if (posts.length === count + 1) {
+    posts.pop()
+    data.cursors.after = posts[count - 1].createdAt.getTime() / 1000
+  }
+
+  data.posts = JSON.parse(JSON.stringify(posts))
+  return data
 }
 
 export default posts

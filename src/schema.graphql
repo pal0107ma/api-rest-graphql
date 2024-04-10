@@ -1,7 +1,16 @@
 type Query {
   userProfile(id: ID): User  
   post(id: ID!): Post
-  posts(count: Int, after: Int, category: String, q: String): [Post]
+  posts(count: Int, after: Float, category: String, q: String): SearchPost
+}
+
+type SearchPost {
+  cursors: Cursor
+  posts: [Post]
+}
+
+type Cursor {
+  after: Float
 }
 
 type Mutation {
