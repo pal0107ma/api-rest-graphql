@@ -3,6 +3,7 @@ import createPost from './mutations/createPost.js'
 import post from './resolvers/post.js'
 import posts from './resolvers/posts.js'
 import updatePost from './mutations/updatePost.js'
+import updateUser from './mutations/updateUser.js'
 
 const resolvers = {
   User: {
@@ -23,7 +24,8 @@ const resolvers = {
   },
   Mutation: {
     createPost,
-    updatePost
+    updatePost,
+    updateUser
   }
 
 }

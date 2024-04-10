@@ -8,6 +8,18 @@ type Mutation {
   createPost(title: String!, description: String!, category: String!, tags: [String!]!): Post
 
   updatePost(id: ID, title: String, description: String, category: String, tags: [String!]): Post
+
+  updateUser(
+    email: String, 
+    role: String, 
+    password: String, 
+    security: String, 
+    username: String, 
+    firstName: String, 
+    lastName: String, 
+    about: String, 
+    phoneNumber: String
+  ): User 
 }
 
 type Post {
