@@ -88,8 +88,7 @@ async function updateUser (__, args, context) {
   if (!user) return null
 
   // IF EMAIL WAS UPDATED
-  if (email || password) {
-
+  if ((email && email !== context.user.email) || password) {
     // VALIDATE SECURITY
     const validPass = bcrypt.compareSync(security, user.password)
 
@@ -107,6 +106,10 @@ async function updateUser (__, args, context) {
       user.email = email
 
       user.accountConfirmed = false
+
+      user.tokens.forEach(async ({ token }) => {
+        await client.del(`jwt:${token}`)
+      })
 
       user.tokens = [{ token: uuidv4() }]
 
