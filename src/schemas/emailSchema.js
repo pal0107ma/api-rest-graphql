@@ -1,6 +1,7 @@
-import Joi from 'joi';
+import Joi from 'joi'
+
 const schema = Joi.string().email({
   minDomainSegments: 2,
-  tlds: { allow: ["com", "net"] },
-});
-export default schema;
+  tlds: { allow: ['com', 'net'] }
+})
+export default schema

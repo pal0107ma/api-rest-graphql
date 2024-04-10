@@ -1,84 +1,101 @@
-import redis from '../../db/redis.client.js';
-import jwt from 'jsonwebtoken';
+import client from '../../db/redis.client.js'
+import jwt from 'jsonwebtoken'
 
 // EXPRESS TYPES
-import { response, request } from 'express';
+import { response, request } from 'express'
 
 // MODEL
-import  User  from '../../models/User.js';
+import User from '../../models/User.js'
 
 // VALIDATION SCHEMA
 
 // HELPERS
-import  internalErrorServer  from '../../helpers/internalErrorServer.js';
+import internalErrorServer from '../../helpers/internalErrorServer.js'
 
 const verifyJWT = async (req = request, res = response, next) => {
   try {
     if (
       !req?.headers?.authorization ||
-      !req?.headers?.authorization.startsWith("Bearer")
-    )
-      return res.status(401).json({ msg: "invalid auth" });
+      !req?.headers?.authorization.startsWith('Bearer')
+    ) { return res.status(401).json({ msg: 'invalid auth' }) }
 
     // GRAB TOKEN FROM HEADERS
-    const [, token] = req.headers.authorization.split(" ");
+    const [, token] = req.headers.authorization.split(' ')
 
     // VERIFY JWT
     const {
-      _id: user_id,
-      exp: token_exp,
-      iat: token_iat,
-    } = jwt.verify(token, process.env.JWT_KEY || "secret");
+      _id: id
+    } = jwt.verify(token, process.env.JWT_KEY || 'secret')
 
     // ===============================
     // TOKEN IS VALID >>>
     // ===============================
 
     // VERIFY IF TOKEN WAS NOT DELETED FROM REDIS COLLECTION
-    const redisToken = await redis.get(`jwt:${token}`);
+    const redisToken = await client.exists(`jwt:${token}`)
 
-    // INITIALIZE USER VARIABLE
-    let user;
+    let user
 
     // IF TOKEN WAS DELETED FROM REDIS COLLECTION
     if (!redisToken) {
       // FIND USER BY TOKEN
-      user = await User.findOne({ "tokens.token": token }).select(
-        "-account_confirmed -password"
-      );
+      user = await User.findOne({ 'tokens.token': token })
 
       // IF USER LOGGED OUT OR USER WAS DELETED
-      if (!user) return res.status(401).json({ msg: "invalid auth" });
+      if (!user) return res.status(401).json({ msg: 'invalid auth' })
+
+      // STRINGIFY USER DATA BUT EXCLUDE TOKENS
+      user = JSON.stringify((({ tokens, ...user }) => user)(user._doc))
 
       // SAVE JWT IN REDIS COLLECTION
-      await redis.set(`jwt:${token}`, token, {
+      await client.set(`jwt:${token}`, token, {
         EX: process.env.JWT_REDIS_EXP
-          ? Number(process.env.JWT_REDIS_EX)
+          ? Number(process.env.JWT_REDIS_EXP)
           : 60 * 60 * 24,
-        NX: true,
-      });
+        NX: true
+      })
     }
 
-    req.data = {
-      user_id,
-      user,
-      token,
-      token_exp,
-      token_iat,
-    };
+    // _ IF TOKEN EXISTS IN REDIS BUT WE DIDN'T GET USER YET
+    // _ OR WE DID'T GET USER EITHER
+    if (!user) {
+      user = await client.get(`users:${id}`)
 
-    next();
+      // IF USER DOES NOT EXIST IN REDIS
+      if (!user) {
+        user = await User.findById(id).select('-tokens')
+
+        // IF USER WAS DELETED PERMANENTLY
+        if (!user) return res.status(401).json({ msg: 'invalid auth' })
+
+        user = JSON.stringify(user)
+
+        // SAVE TO REDIS
+        await client.set(`users:${id}`, user, {
+          EX: process.env.USER_REDIS_EXP
+            ? Number(process.env.USER_REDIS_EXP)
+            : 60 * 60 * 24,
+          NX: true
+        })
+      };
+    }
+
+    // SUCCESS
+    req.context = {
+      user: JSON.parse(user)
+    }
+
+    next()
   } catch (error) {
     if (
-      error?.message === "jwt expired" ||
-      error?.message === "invalid token" ||
-      error?.message === "jwt malformed" ||
-      error?.message === "invalid signature"
-    )
-      return res.status(401).json({ msg: "invalid auth" });
+      error?.message === 'jwt expired' ||
+      error?.message === 'invalid token' ||
+      error?.message === 'jwt malformed' ||
+      error?.message === 'invalid signature'
+    ) { return res.status(401).json({ msg: 'invalid auth' }) }
 
-    internalErrorServer(error, res);
+    internalErrorServer(error, res)
   }
-};
+}
 
-export default verifyJWT;
+export default verifyJWT

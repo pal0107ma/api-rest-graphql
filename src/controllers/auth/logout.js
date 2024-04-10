@@ -1,44 +1,44 @@
-import redis from '../../db/redis.client.js';
+import { response, request } from 'express'
+import client from '../../db/redis.client.js'
 
 // EXPRESS TYPES
-import { response, request } from 'express';
 
 // MODEL
-import  User  from '../../models/User.js';
+import User from '../../models/User.js'
 
 // VALIDATION SCHEMA
 
 // HELPERS
-import  internalErrorServer  from '../../helpers/internalErrorServer.js';
+import internalErrorServer from '../../helpers/internalErrorServer.js'
 
 const logout = async (req = request, res = response) => {
   try {
     // VERIFY JWT
-    let { user_id, token } = req.data;
+    const { userId, token } = req.context
 
-    await redis.del(`jwt:${token}`);
+    await client.del(`jwt:${token}`)
 
-    await redis.del(`users:${user_id}`);
+    await client.del(`users:${userId}`)
 
-    const user = await User.findById(user_id)
-    .select("-account_confirmed -password");
+    const user = await User.findById(userId)
+      .select('-accountConfirmed -password')
 
     // IF USER WAS DELETED
-    if (!user) return res.status(401).json({ msg: "invalid auth" });
+    if (!user) return res.status(401).json({ msg: 'invalid auth' })
 
-    user.tokens.pull({ token });
+    user.tokens.pull({ token })
 
-    await user.save();
+    await user.save()
 
     res.json(
       (() => {
-        const { tokens, ...info } = user._doc;
-        return { msg: "logout success", info };
+        const { tokens, ...data } = user._doc
+        return { msg: 'logout success', data }
       })()
-    );
+    )
   } catch (error) {
-    internalErrorServer(error, res);
+    internalErrorServer(error, res)
   }
-};
+}
 
-export default logout;
+export default logout

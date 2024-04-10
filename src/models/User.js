@@ -1,30 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
-const tokenSchema = new Schema(
-  {
-    token: {
-      type: String,
-      default: null,
-      trim: true,
-    },
-    exp: {
-      type: Number,
-      default: null,
-    },
-    iat: {
-      type: Number,
-      default: null,
-    },
-    type: {
-      type: String,
-      enum: ["JWT", "FORGOT-PASS", null],
-      default: null,
-    },
-  },
-  {
-    versionKey: false,
-  }
-);
+import tokenSchema from '../schemas/tokenSchema.js'
+
+import skillSchema from '../schemas/skillSchema.js'
+
+import workExperience from '../schemas/workExperience.js'
 
 const userSchema = new Schema(
   {
@@ -33,37 +13,63 @@ const userSchema = new Schema(
       required: true,
       lowercase: true,
       trim: true,
-      unique: true,
+      unique: true
     },
     password: {
       type: String,
       required: true,
-      trim: true,
+      trim: true
     },
     username: {
       type: String,
       required: true,
       lowercase: true,
       trim: true,
-      unique: true,
+      unique: true
     },
-    account_confirmed: {
+    accountConfirmed: {
       type: Boolean,
-      default: false,
+      default: false
     },
     tokens: {
-      type: [tokenSchema],
+      type: [tokenSchema]
     },
-    full_name: {
+    lastName: {
       type: String,
       trim: true,
-      required: true,
+      required: true
     },
+    firstName: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    skills: {
+      type: [skillSchema]
+    },
+    role: {
+      type: String,
+      enum: ['STUDENT', 'TEACHER'],
+      required: true
+    },
+    workExperience: {
+      type: [workExperience]
+    },
+    phoneNumber: {
+      type: String,
+      trim: true,
+      default: null
+    },
+    about: {
+      type: String,
+      trim: true,
+      default: null
+    }
   },
   {
     timestamps: true,
-    versionKey: false,
+    versionKey: false
   }
-);
+)
 
-export default model("User", userSchema);
+export default model('User', userSchema)

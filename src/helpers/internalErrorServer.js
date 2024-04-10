@@ -1,9 +1,9 @@
-import { response } from 'express';
+import { response } from 'express'
 
 const internalErrorServer = (error, res = response) => {
-  res.status(500).json(error);
+  res.status(500).json(error)
 
-  console.log(error);
-};
+  console.log(error)
+}
 
-export default internalErrorServer;
+export default internalErrorServer
