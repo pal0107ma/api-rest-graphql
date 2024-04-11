@@ -27,13 +27,13 @@ async function updateUser (__, args, context) {
 
     role: Joi.string().valid('STUDENT', 'TEACHER').optional().empty(null),
 
-    security: Joi.string().when('email', {
+    security: Joi.string().when('password', {
       is: Joi.any().valid(null),
-      then: Joi.optional().empty(null),
-      otherwise: Joi.required()
-    }).when('password', {
-      is: Joi.any().valid(null),
-      then: Joi.optional().empty(null),
+      then: Joi.when('email', {
+        is: Joi.any().valid(null),
+        then: Joi.optional().empty(null),
+        otherwise: Joi.required()
+      }),
       otherwise: Joi.required()
     }),
 
