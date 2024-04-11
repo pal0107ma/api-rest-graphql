@@ -1,41 +1,33 @@
 import fs from 'fs'
 import path from 'path'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
-const sendEmail = async ({ htmlParams = {}, to = '', subject = '' } = {}) => {
+const sendEmail = async ({ htmlParams = {}, to = [], subject = '' } = {}) => {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   // DEFINE HTML AND TEXT
 
   const { text, html } = defineHtmlText(htmlParams)
 
-  // DEFINE TRANSPORTER
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.NODEMAILER_HOST || 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.NODEMAILER_USER,
-      pass: process.env.NODEMAILER_PASS
-    }
-  })
-
   // SEND EMAIL
 
-  const info = await transporter.sendMail({
-    from: `"Auth Service" <${process.env.NODEMAILER_USER}>`, // sender address
-    to, // list of receivers
-    subject, // Subject line
-    text, // plain text body
+  const { data, error } = await resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to,
+    subject,
+    text,
     html
   })
 
-  console.log('Message sent: %s', info.messageId)
+  console.log(error)
+
+  console.log(data)
 }
 
 function defineHtmlText (htmlParams) {
   const htmlTemplatePath = path.resolve(
-    path.join(__dirname, '../templates/email-template.html')
+    'src/templates/email-template.html'
   )
+
   let html = fs.readFileSync(htmlTemplatePath, { encoding: 'utf-8' })
 
   let text = ''

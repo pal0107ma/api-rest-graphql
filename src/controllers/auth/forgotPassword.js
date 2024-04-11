@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import internalErrorServer from '../../helpers/internalErrorServer.js'
 import emailSchema from '../../schemas/emailSchema.js'
 import User from '../../models/User.js'
+import sendEmail from '../../helpers/sendEmail.js'
 
 const forgotPassword = async (req = request, res = response) => {
   try {
@@ -32,17 +33,16 @@ const forgotPassword = async (req = request, res = response) => {
 
     // SEND CONFIRMATION EMAIL
 
-    // await sendEmail({
-    //   htmlParams: {
-    //     HREF: `${process.env.FRONTEND_URL}/confirm-forgot-password?token=${user.tokens[0].token}`,
-    //     TITLE: "COnfirm you forgot your password!",
-    //     LINK_TEXT: "Click here!",
-    //     TEXT: `We need you confirm you forgot your password let's press "Click here!"`,
-    //   },
-    //   to: email,
-    //   host: req.hostname,
-    //   subject: "Forgot password confirmation email",
-    // });
+    await sendEmail({
+      htmlParams: {
+        HREF: `${process.env.FRONTEND_URL}/confirm-forgot-password?token=${user.tokens[0].token}`,
+        TITLE: 'Confirm you forgot your password!',
+        LINK_TEXT: 'Click here!',
+        TEXT: 'We need you confirm you forgot your password let\'s press "Click here!". This link will expire in next 24 hours.'
+      },
+      to: [email],
+      subject: 'Forgot password confirmation'
+    })
 
     // SEND USER INFO
 

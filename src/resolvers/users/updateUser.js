@@ -4,6 +4,7 @@ import { GraphQLError } from 'graphql'
 import Joi from 'joi'
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
+import sendEmail from '../../helpers/sendEmail.js'
 
 async function updateUser (__, args, context) {
   const schema = Joi.object({
@@ -115,11 +116,18 @@ async function updateUser (__, args, context) {
 
       // SEND EMAIL
 
-      /*
-
-      *****
-
-      */
+      await sendEmail({
+        htmlParams: {
+          HREF: `${
+            process.env.FRONTEND_URL || 'http://localhost:5050/auth'
+          }/confirm-account?token=${user.tokens[0].token}`,
+          TITLE: "Let's confirm your new email!",
+          LINK_TEXT: 'Click here!',
+          TEXT: 'We need you confirm your new email let\'s press "Click here!"'
+        },
+        to: [email],
+        subject: 'Confirm your new email'
+      })
     }
 
     // CHANGE PASSWORD
