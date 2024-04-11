@@ -1,4 +1,4 @@
-import Post from '../models/Post.js'
+import Post from '../../models/Post.js'
 import { GraphQLError } from 'graphql'
 import Joi from 'joi'
 

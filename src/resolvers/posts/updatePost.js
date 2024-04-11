@@ -1,8 +1,8 @@
-import Post from '../models/Post.js'
+import Post from '../../models/Post.js'
 import { GraphQLError } from 'graphql'
 import Joi from 'joi'
-import idSchema from '../schemas/idSchema.js'
-import client from '../db/redis.client.js'
+import idSchema from '../../schemas/idSchema.js'
+import client from '../../db/redis.client.js'
 
 async function updatePost (__, args, { user }) {
   const schema = Joi.object().keys({

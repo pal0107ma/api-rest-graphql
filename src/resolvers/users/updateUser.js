@@ -1,5 +1,5 @@
-import client from '../db/redis.client.js'
-import User from '../models/User.js'
+import client from '../../db/redis.client.js'
+import User from '../../models/User.js'
 import { GraphQLError } from 'graphql'
 import Joi from 'joi'
 import { v4 as uuidv4 } from 'uuid'

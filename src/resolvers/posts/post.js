@@ -1,7 +1,7 @@
-import client from '../db/redis.client.js'
-import Post from '../models/Post.js'
+import client from '../../db/redis.client.js'
+import Post from '../../models/Post.js'
 import { GraphQLError } from 'graphql'
-import idSchema from '../schemas/idSchema.js'
+import idSchema from '../../schemas/idSchema.js'
 
 async function post (__, { id }) {
   // VALIDATE ID ARGUMENT

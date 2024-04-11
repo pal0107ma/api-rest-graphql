@@ -1,7 +1,7 @@
-import client from '../db/redis.client.js'
-import User from '../models/User.js'
+import client from '../../db/redis.client.js'
+import User from '../../models/User.js'
 import { GraphQLError } from 'graphql'
-import idSchema from '../schemas/idSchema.js'
+import idSchema from '../../schemas/idSchema.js'
 async function userProfile (__, args, context) {
   // IF USER IS NOT LOOKING FOR OTHER USER PROFILE
   if (!args?.id) return context.user

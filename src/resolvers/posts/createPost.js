@@ -1,5 +1,5 @@
-import client from '../db/redis.client.js'
-import Post from '../models/Post.js'
+import client from '../../db/redis.client.js'
+import Post from '../../models/Post.js'
 import { GraphQLError } from 'graphql'
 import Joi from 'joi'
 
