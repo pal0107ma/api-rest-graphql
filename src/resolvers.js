@@ -4,6 +4,7 @@ import post from './resolvers/post.js'
 import posts from './resolvers/posts.js'
 import updatePost from './mutations/updatePost.js'
 import updateUser from './mutations/updateUser.js'
+import addUserSkill from './resolvers/users/addUserSkill.js'
 
 const resolvers = {
   User: {
@@ -25,7 +26,8 @@ const resolvers = {
   Mutation: {
     createPost,
     updatePost,
-    updateUser
+    updateUser,
+    addUserSkill
   }
 
 }

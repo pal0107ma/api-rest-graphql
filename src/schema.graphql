@@ -29,6 +29,25 @@ type Mutation {
     about: String, 
     phoneNumber: String
   ): User 
+
+  addUserSkill( 
+    skill: String!, 
+    category: EnumCategory, 
+    topic: String, 
+    level: EnumLevel
+  ): User
+}
+
+enum EnumCategory {
+  UNIVERSITY
+  HIGH_SCHOOL
+  AUTODIDACT
+}
+
+enum EnumLevel {
+  ADVANCED
+  INTERMEDIATE
+  BASIC
 }
 
 type Post {
