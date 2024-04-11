@@ -52,7 +52,7 @@ const userSchema = new Schema(
       enum: ['STUDENT', 'TEACHER'],
       required: true
     },
-    workExperience: {
+    workExperiences: {
       type: [workExperience]
     },
     phoneNumber: {

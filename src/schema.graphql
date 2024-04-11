@@ -38,6 +38,13 @@ type Mutation {
   ): User
 
   deleteUserSkill(id: ID!): User
+
+  addUserWorkExperience( 
+    institution: String!, 
+    labor: String!, 
+    description: String!, 
+    years: Int!, 
+  ): User
 }
 
 enum EnumCategory {
@@ -101,6 +108,7 @@ type Skill {
 }
 
 type WorkExperience {
+  id: ID
   institution: String
   labor: String
   description: String

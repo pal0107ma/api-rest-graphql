@@ -6,6 +6,7 @@ import updatePost from './mutations/updatePost.js'
 import updateUser from './mutations/updateUser.js'
 import addUserSkill from './resolvers/users/addUserSkill.js'
 import deleteUserSkill from './resolvers/users/deleteUserSkill.js'
+import addUserWorkExperience from './resolvers/users/addUserWorkExperience.js'
 
 const resolvers = {
   User: {
@@ -15,6 +16,9 @@ const resolvers = {
     id: (parent) => parent.id ?? parent._id,
     responsesCount: (parent) => parent.responses.length
 
+  },
+  WorkExperience: {
+    id: (parent) => parent.id ?? parent._id
   },
   Skill: {
     id: (parent) => parent.id ?? parent._id
@@ -29,7 +33,8 @@ const resolvers = {
     updatePost,
     updateUser,
     addUserSkill,
-    deleteUserSkill
+    deleteUserSkill,
+    addUserWorkExperience
   }
 
 }
