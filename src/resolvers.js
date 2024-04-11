@@ -7,6 +7,7 @@ import updateUser from './mutations/updateUser.js'
 import addUserSkill from './resolvers/users/addUserSkill.js'
 import deleteUserSkill from './resolvers/users/deleteUserSkill.js'
 import addUserWorkExperience from './resolvers/users/addUserWorkExperience.js'
+import deleteUserWorkExperience from './resolvers/users/deleteUserWorkExperience.js'
 
 const resolvers = {
   User: {
@@ -34,7 +35,8 @@ const resolvers = {
     updateUser,
     addUserSkill,
     deleteUserSkill,
-    addUserWorkExperience
+    addUserWorkExperience,
+    deleteUserWorkExperience
   }
 
 }
