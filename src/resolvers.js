@@ -5,6 +5,7 @@ import posts from './resolvers/posts.js'
 import updatePost from './mutations/updatePost.js'
 import updateUser from './mutations/updateUser.js'
 import addUserSkill from './resolvers/users/addUserSkill.js'
+import deleteUserSkill from './resolvers/users/deleteUserSkill.js'
 
 const resolvers = {
   User: {
@@ -15,7 +16,7 @@ const resolvers = {
     responsesCount: (parent) => parent.responses.length
 
   },
-  Response: {
+  Skill: {
     id: (parent) => parent.id ?? parent._id
   },
   Query: {
@@ -27,7 +28,8 @@ const resolvers = {
     createPost,
     updatePost,
     updateUser,
-    addUserSkill
+    addUserSkill,
+    deleteUserSkill
   }
 
 }

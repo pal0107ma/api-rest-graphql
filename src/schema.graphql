@@ -36,6 +36,8 @@ type Mutation {
     topic: String, 
     level: EnumLevel
   ): User
+
+  deleteUserSkill(id: ID!): User
 }
 
 enum EnumCategory {
